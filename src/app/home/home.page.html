@@ -1,0 +1,38 @@
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">This is the menu content.</ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+        <ion-button color="primary" (click)="logOut()">Log out</ion-button>
+      </ion-buttons>
+      <ion-title>{{(user$ | async)?.email}}</ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+      <ion-segment value="categories" (ionChange)="changePage($event)">
+        <ion-segment-button routerLink="/home/categories" value="categories">
+          <ion-label>categories</ion-label>
+        </ion-segment-button>
+        <ion-segment-button routerLink="/home/random" value="random">
+          <ion-label>random</ion-label>
+        </ion-segment-button>
+        <ion-segment-button routerLink="/home/favorites" value="favorites">
+          <ion-label>favorites</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+
+    <ion-router-outlet></ion-router-outlet>
+
+  </ion-content>
+
+</div>

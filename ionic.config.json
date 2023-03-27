@@ -1,0 +1,7 @@
+{
+  "name": "Background Catcher",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
