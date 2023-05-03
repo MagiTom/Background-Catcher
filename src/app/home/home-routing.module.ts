@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePage } from './home.page';
+import {CategoriesPage} from "./pages/categories/categories.page";
+import {RandomPage} from "./pages/random/random.page";
+import {FavoritesPage} from "./pages/favorites/favorites.page";
 
 const routes: Routes = [
   {
@@ -9,15 +12,15 @@ const routes: Routes = [
     children: [
       {
         path: 'categories',
-        loadChildren: () => import('./pages/categories/categories.module').then( m => m.CategoriesPageModule)
+        component: CategoriesPage
       },
       {
         path: 'random',
-        loadChildren: () => import('./pages/random/random.module').then( m => m.RandomPageModule)
+        component: RandomPage
       },
       {
         path: 'favorites',
-        loadChildren: () => import('./pages/favorites/favorites.module').then( m => m.FavoritesPageModule)
+        component: FavoritesPage
       },
     ]
   },

@@ -5,6 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import {RandomPage} from "./pages/random/random.page";
+import {CategoriesPage} from "./pages/categories/categories.page";
+import {FavoritesPage} from "./pages/favorites/favorites.page";
+import {photosReducer, photosSearchReducer} from "./state/photos.reducers";
+import {PhotosEffects} from "./state/photos.effects";
+import {EffectsModule} from "@ngrx/effects";
+import {StoreModule} from "@ngrx/store";
 
 
 @NgModule({
@@ -12,8 +19,11 @@ import { HomePageRoutingModule } from './home-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    StoreModule.forFeature('photosRandom', photosReducer),
+    StoreModule.forFeature('photosSearch', photosSearchReducer),
+    EffectsModule.forFeature([PhotosEffects]),
   ],
-  declarations: [HomePage]
+  declarations: [HomePage, RandomPage, CategoriesPage, FavoritesPage]
 })
 export class HomePageModule {}
