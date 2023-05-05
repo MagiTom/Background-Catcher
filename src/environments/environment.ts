@@ -11,7 +11,7 @@ export const environment = {
     storageBucket: "background-catcher.appspot.com",
     messagingSenderId: "1033443249972",
     appId: "1:1033443249972:web:b582d2f673afb6ce395f61",
-    measurementId: "G-PW60268KS6"
+    measurementId: "G-PW60268KS6",
   },
   unsplashApi: 'https://api.unsplash.com/',
   UNSPLASH_API_KEY: 'oDeXa77Dn6XX1CXEZorC4MMbOn5_vP2xdN3s2VGs22M'

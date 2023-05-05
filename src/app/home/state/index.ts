@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as AppState from '../../state/app.state';
-import {RandomPhotosState, SearchPhotosState} from "./photos.reducers";
+import {FavouritePhotosState, RandomPhotosState, SearchPhotosState} from "./photos.reducers";
 
 // Extends the app state to include the product feature.
 // This is required because products are lazy loaded.
@@ -12,6 +12,7 @@ export interface State extends AppState.State {
 // Selector functions
 const getRandomPhotosFeatureState = createFeatureSelector<RandomPhotosState>('photosRandom');
 const getSearchFeatureState = createFeatureSelector<SearchPhotosState>('photosSearch');
+const getFavouriteFeatureState = createFeatureSelector<FavouritePhotosState>('photosFavourite');
 
 export const getRandomPhotos = createSelector(
   getRandomPhotosFeatureState,

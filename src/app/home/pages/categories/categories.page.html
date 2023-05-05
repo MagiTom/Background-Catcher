@@ -6,6 +6,6 @@
 
 <ion-content>
   <div class="photos" *ngIf="photos$ | async as photos">
-    <ion-img [src]="photo.urls.small" *ngFor="let photo of photos.results" class="photos__item"></ion-img>
+    <ion-img (click)="getPhoto(photo)" [src]="photo.urls.small" *ngFor="let photo of photos.results" class="photos__item"></ion-img>
   </div>
 </ion-content>

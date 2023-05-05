@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from "rxjs";
-import {PhotosModel, SearchPhotos} from "../../../models/back-end/photos.model";
+import {PhotosModel, PhotosResult, SearchPhotos} from "../../../models/back-end/photos.model";
 import {getErrorRandomPhotos, getErrorSearchPhotos, getRandomPhotos, getSearchPhotos} from "../../state";
 import {PhotosPageActions} from "../../state/actions";
 import {Store} from "@ngrx/store";
 import {State} from "../../../state/app.state";
-import {photosQuery} from "../../state/actions/photos-page.actions";
+import {FavouritePhoto, photosQuery} from "../../state/actions/photos-page.actions";
+import {PhotosService} from "../../../services/photos.service";
 
 @Component({
   selector: 'app-categories',
@@ -17,7 +18,7 @@ export class CategoriesPage implements OnInit {
   error$!: Observable<string | null>;
   photos$!: Observable<SearchPhotos | null>
   query!: photosQuery;
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>, private photoService: PhotosService) { }
 
   ngOnInit() {
     this.query = {
@@ -32,4 +33,14 @@ export class CategoriesPage implements OnInit {
     this.store.dispatch(PhotosPageActions.loadSearchPhotos({query: this.query}));
   }
 
+  getPhoto(photo: PhotosResult) {
+    const favouritePhoto: FavouritePhoto = {
+      id: photo.id,
+      url: photo.urls.small,
+      username: photo.user.username,
+      description: photo.description
+    }
+    // this.store.dispatch(PhotosPageActions.savePhoto({ photo: favouritePhoto }))
+    this.photoService.addDataToDatabase(favouritePhoto).subscribe()
+  }
 }
