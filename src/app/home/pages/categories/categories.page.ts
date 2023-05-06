@@ -40,7 +40,6 @@ export class CategoriesPage implements OnInit {
       username: photo.user.username,
       description: photo.description
     }
-    // this.store.dispatch(PhotosPageActions.savePhoto({ photo: favouritePhoto }))
-    this.photoService.addDataToDatabase(favouritePhoto).subscribe()
+   this.photoService.addDataToDatabase(favouritePhoto)
   }
 }
