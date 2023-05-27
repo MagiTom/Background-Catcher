@@ -41,3 +41,13 @@ export const savePhotoFailure = createAction(
   '[Photos API] Save Photo Fail',
   props<{ error: string }>()
 );
+
+export const deletePhotoSuccess = createAction(
+  '[Photos API] Delete Photo Success',
+  props<{ id: string }>()
+)
+
+export const deletePhotoFailure = createAction(
+  '[Photos API] Delete Photo Failure',
+  props<{ error: string }>()
+)

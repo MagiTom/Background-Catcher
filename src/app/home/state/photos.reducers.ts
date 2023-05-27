@@ -134,4 +134,26 @@ export const favouritePhotosReducer = createReducer<FavouritePhotosState>(
       error: action.error
     };
   }),
+
+  on(PhotosPageActions.deletePhoto, (state, action): FavouritePhotosState => {
+    return {
+      ...state,
+      isLoading: true,
+    };
+  }),
+  on(PhotosApiActions.deletePhotoSuccess, (state, action): FavouritePhotosState => {
+    return {
+      ...state,
+      isLoading: false,
+      photos: state.photos.filter(photo => photo.id !== action.id),
+      error: ''
+    };
+  }),
+  on(PhotosApiActions.deletePhotoFailure, (state, action): FavouritePhotosState => {
+    return {
+      ...state,
+      isLoading: false,
+      error: action.error
+    };
+  }),
 )

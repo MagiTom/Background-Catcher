@@ -30,3 +30,8 @@ export const savePhoto = createAction(
   '[Photos Page] Save Photo',
   props<{ photo: FavouritePhoto }>()
 );
+
+export const deletePhoto = createAction(
+  '[Photos Page] Delete Photo',
+    props<{ id: string }>()
+)

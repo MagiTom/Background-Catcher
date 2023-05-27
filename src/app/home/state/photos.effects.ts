@@ -39,29 +39,41 @@ export class PhotosEffects {
       );
   });
 
-  // loadFavouritePhoto$ = createEffect(() => {
-  //   return this.actions$
-  //     .pipe(
-  //       ofType(PhotosPageActions.loadFavouritePhotos),
-  //       concatMap(action => this.photosService.getAll()
-  //         .pipe(
-  //           map(photos => PhotosApiActions.loadSearchPhotosSuccess({photos})),
-  //           catchError(error => of(PhotosApiActions.loadSearchPhotosFailure({error})))
-  //         )
-  //       )
-  //     );
-  // });
+  loadFavouritePhoto$ = createEffect(() => {
+    return this.actions$
+      .pipe(
+        ofType(PhotosPageActions.loadFavouritePhotos),
+        concatMap(action => this.photosService.getFavouriteList()
+          .pipe(
+            map(photos => PhotosApiActions.loadFavouritePhotosSuccess({photos})),
+            catchError(error => of(PhotosApiActions.loadFavouritePhotosFailure({error})))
+          )
+        )
+      );
+  });
 
-  // saveFavouritePhoto$ = createEffect(() => {
-  //   return this.actions$
-  //     .pipe(
-  //       ofType(PhotosPageActions.savePhoto),
-  //       concatMap(action => this.photosService.createFavoritesPhoto(action.photo)
-  //         .pipe(
-  //           map(photo => PhotosApiActions.savePhotoSuccess({photo})),
-  //           catchError(error => of(PhotosApiActions.savePhotoFailure({error})))
-  //         ))
-  //     )
-  // })
+  saveFavouritePhoto$ = createEffect(() => {
+    return this.actions$
+      .pipe(
+        ofType(PhotosPageActions.savePhoto),
+        concatMap(action => this.photosService.addFavouriteToDatabase(action.photo)
+          .pipe(
+            map(photo => PhotosApiActions.savePhotoSuccess({photo})),
+            catchError(error => of(PhotosApiActions.savePhotoFailure({error})))
+          )))
+  })
+
+  deleteProduct$ = createEffect(() => {
+    return this.actions$
+      .pipe(
+        ofType(PhotosPageActions.deletePhoto),
+        mergeMap(action =>
+          this.photosService.deleteFavourite(action.id).pipe(
+            map(() => PhotosApiActions.deletePhotoSuccess({ id: action.id })),
+            catchError(error => of(PhotosApiActions.deletePhotoFailure({ error })))
+          )
+        )
+      );
+  });
 }
 

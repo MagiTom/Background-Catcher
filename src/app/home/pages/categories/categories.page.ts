@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {PhotosModel, PhotosResult, SearchPhotos} from "../../../models/back-end/photos.model";
-import {getErrorRandomPhotos, getErrorSearchPhotos, getRandomPhotos, getSearchPhotos} from "../../state";
+import {PhotosResult, SearchPhotos} from "../../../models/back-end/photos.model";
+import {getErrorSearchPhotos, getSearchPhotos} from "../../state";
 import {PhotosPageActions} from "../../state/actions";
 import {Store} from "@ngrx/store";
 import {State} from "../../../state/app.state";
 import {FavouritePhoto, photosQuery} from "../../state/actions/photos-page.actions";
-import {PhotosService} from "../../../services/photos.service";
+import {categories} from "../../util/categories";
 
 @Component({
   selector: 'app-categories',
@@ -18,7 +18,8 @@ export class CategoriesPage implements OnInit {
   error$!: Observable<string | null>;
   photos$!: Observable<SearchPhotos | null>
   query!: photosQuery;
-  constructor(private store: Store<State>, private photoService: PhotosService) { }
+  categories = categories;
+  constructor(private store: Store<State>) { }
 
   ngOnInit() {
     this.query = {
@@ -26,11 +27,8 @@ export class CategoriesPage implements OnInit {
       page: 1
     }
     this.photos$ = this.store.select(getSearchPhotos);
-
-    // Do NOT subscribe here because it uses an async pipe
     this.error$ = this.store.select(getErrorSearchPhotos);
-
-    this.store.dispatch(PhotosPageActions.loadSearchPhotos({query: this.query}));
+    // this.store.dispatch(PhotosPageActions.loadSearchPhotos({query: this.query}));
   }
 
   getPhoto(photo: PhotosResult) {
@@ -40,6 +38,6 @@ export class CategoriesPage implements OnInit {
       username: photo.user.username,
       description: photo.description
     }
-   this.photoService.addDataToDatabase(favouritePhoto)
+    this.store.dispatch(PhotosPageActions.savePhoto({ photo: favouritePhoto }))
   }
 }

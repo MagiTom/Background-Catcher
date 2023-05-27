@@ -2,12 +2,12 @@ import {inject, Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {PhotosModel, SearchPhotos} from "../models/back-end/photos.model";
-import {from, map, Observable} from "rxjs";
+import {from, map, Observable, of} from "rxjs";
 import {FavouritePhoto} from "../home/state/actions/photos-page.actions";
 import {Store} from "@ngrx/store";
 import {State} from "../state/app.state";
 import {AngularFireDatabase, AngularFireList, AngularFireObject} from "@angular/fire/compat/database";
-import {addDoc, collection, Firestore} from "@angular/fire/firestore";
+import {addDoc, collection, collectionData, deleteDoc, doc, Firestore} from "@angular/fire/firestore";
 import firebase from "firebase/compat";
 import firestore = firebase.firestore;
 
@@ -50,33 +50,19 @@ export class PhotosService {
     return this.http.get<PhotosModel[]>(`${this.url}/photos/random`, options)
   }
 
-  getFavoritesPhotos() {
-    // return collectionData(this.photosCollection, {
-    //   idField: 'id',
-    // }) as Observable<any>;
+  deleteFavourite(id: string) {
+    const photosDocRef = doc(this.firestore, `favourite/${id}`);
+    return from(deleteDoc(photosDocRef));
   }
 
-  delete(id : string){
-    // this.store.collection('list').doc(id).delete();
+  getFavouriteList(): Observable<FavouritePhoto[]> {
+    return collectionData<any>(collection(this.firestore, 'favourite'), {
+      idField: 'id'
+    });
   }
 
-  // getAll(){
-  //  return this.db.collection('favourite').valueChanges()
-  //     // .pipe(map(response =>{
-  //     //   return this.dataSource = response.map(item =>
-  //     //     Object.assign({id : item.payload.doc.id}, item.payload.doc.data())
-  //     //   );
-  //     // }))
-  // }
-
-  // createFavoritesPhoto(photo: FavouritePhoto): Observable<void> {
-  //   return this.addDataToDatabase(photo).pipe(
-  //     switchMap(() => this.getAll())
-  //   )
-  // }
-
-  addDataToDatabase(photo: FavouritePhoto){
-    addDoc(collection(this.firestore, "favourite"), photo);
+  addFavouriteToDatabase(photo: FavouritePhoto) {
+    return from(addDoc(collection(this.firestore, "favourite"), photo)).pipe(map(() => photo));
   }
 }
 

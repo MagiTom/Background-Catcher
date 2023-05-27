@@ -44,3 +44,18 @@ export const getLoadingSearchPhotos = createSelector(
   getSearchFeatureState,
   state => state.isLoading
 );
+
+export const getFavouritePhotos = createSelector(
+  getFavouriteFeatureState,
+  state => state.photos
+);
+
+export const getErrorFavouritePhotos = createSelector(
+  getFavouriteFeatureState,
+  state => state.error
+);
+
+export const getLoadingFavouritePhotos = createSelector(
+  getFavouriteFeatureState,
+  state => state.isLoading
+);

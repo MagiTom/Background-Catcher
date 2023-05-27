@@ -5,6 +5,9 @@
 </ion-header>
 
 <ion-content>
+  <div class="categories">
+    <div *ngFor="let category of categories" class="categories__item">{{category.name}}</div>
+  </div>
   <div class="photos" *ngIf="photos$ | async as photos">
     <ion-img (click)="getPhoto(photo)" [src]="photo.urls.small" *ngFor="let photo of photos.results" class="photos__item"></ion-img>
   </div>
