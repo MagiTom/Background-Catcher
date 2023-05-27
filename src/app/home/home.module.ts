@@ -12,6 +12,8 @@ import {favouritePhotosReducer, photosReducer, photosSearchReducer} from "./stat
 import {PhotosEffects} from "./state/photos.effects";
 import {EffectsModule} from "@ngrx/effects";
 import {StoreModule} from "@ngrx/store";
+import {ImageCardModule} from "../shared/image-card/image-card.module";
+import {ImageModalComponent} from "../shared/image-modal/image-modal.component";
 
 
 @NgModule({
@@ -19,12 +21,13 @@ import {StoreModule} from "@ngrx/store";
     CommonModule,
     FormsModule,
     IonicModule,
+    ImageCardModule,
     HomePageRoutingModule,
     StoreModule.forFeature('photosRandom', photosReducer),
     StoreModule.forFeature('photosSearch', photosSearchReducer),
     StoreModule.forFeature('photosFavourite', favouritePhotosReducer),
     EffectsModule.forFeature([PhotosEffects]),
   ],
-  declarations: [HomePage, RandomPage, CategoriesPage, FavoritesPage]
+  declarations: [HomePage, RandomPage, CategoriesPage, FavoritesPage, ImageModalComponent]
 })
 export class HomePageModule {}

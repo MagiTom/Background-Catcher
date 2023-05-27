@@ -4,11 +4,17 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="content">
+  <div class="loading">
+    <ion-text *ngIf="!error$" color="danger">Error!</ion-text>
+    <ion-spinner *ngIf="isLoading$"></ion-spinner>
+  </div>
   <div class="categories">
-    <div *ngFor="let category of categories" class="categories__item">{{category.name}}</div>
+    <div (click)="getCategory(category)" *ngFor="let category of categories" class="categories__item">{{category.name}}
+      <ion-ripple-effect></ion-ripple-effect>
+    </div>
   </div>
   <div class="photos" *ngIf="photos$ | async as photos">
-    <ion-img (click)="getPhoto(photo)" [src]="photo.urls.small" *ngFor="let photo of photos.results" class="photos__item"></ion-img>
+    <app-image-card *ngFor="let photo of photos.results" [src]="photo.urls.small" [author]="photo.user.username" (clickAction)="getPhoto(photo)"></app-image-card>
   </div>
 </ion-content>

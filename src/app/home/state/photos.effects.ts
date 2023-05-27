@@ -30,7 +30,7 @@ export class PhotosEffects {
     return this.actions$
       .pipe(
         ofType(PhotosPageActions.loadSearchPhotos),
-        concatMap(action => this.photosService.getPhotos(action.query.page, action.query.term)
+        mergeMap(action => this.photosService.getPhotos(action.query.page, action.query.term)
           .pipe(
             map(photos => PhotosApiActions.loadSearchPhotosSuccess({photos})),
             catchError(error => of(PhotosApiActions.loadSearchPhotosFailure({error})))

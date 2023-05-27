@@ -17,16 +17,20 @@ export class FavoritesPage implements OnInit {
   isLoading$!: Observable<boolean>;
   error$!: Observable<string | null>;
   photos$!: Observable<FavouritePhoto[] | null>
+  selectedPhoto!: FavouritePhoto;
   constructor(private photoService: PhotosService, private store: Store<State>) { }
 
   ngOnInit() {
     this.photos$ = this.store.select(getFavouritePhotos);
     this.error$ = this.store.select(getErrorFavouritePhotos);
-
     this.store.dispatch(PhotosPageActions.loadFavouritePhotos());
   }
 
   removePhoto(photo: FavouritePhoto) {
     this.store.dispatch(PhotosPageActions.deletePhoto({ id: photo.id }))
+  }
+
+  openModal(photo: FavouritePhoto) {
+    this.selectedPhoto = photo
   }
 }

@@ -6,7 +6,7 @@ import {PhotosPageActions} from "../../state/actions";
 import {Store} from "@ngrx/store";
 import {State} from "../../../state/app.state";
 import {FavouritePhoto, photosQuery} from "../../state/actions/photos-page.actions";
-import {categories} from "../../util/categories";
+import {categories, Category} from "../../util/categories";
 
 @Component({
   selector: 'app-categories',
@@ -28,7 +28,11 @@ export class CategoriesPage implements OnInit {
     }
     this.photos$ = this.store.select(getSearchPhotos);
     this.error$ = this.store.select(getErrorSearchPhotos);
-    // this.store.dispatch(PhotosPageActions.loadSearchPhotos({query: this.query}));
+    // this.getPhotos();
+  }
+
+  getPhotos(){
+    this.store.dispatch(PhotosPageActions.loadSearchPhotos({query: this.query}));
   }
 
   getPhoto(photo: PhotosResult) {
@@ -39,5 +43,13 @@ export class CategoriesPage implements OnInit {
       description: photo.description
     }
     this.store.dispatch(PhotosPageActions.savePhoto({ photo: favouritePhoto }))
+  }
+
+  getCategory(category: Category) {
+    this.query = {
+      ...this.query,
+      term: category.name
+    }
+    this.getPhotos();
   }
 }

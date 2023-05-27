@@ -1,0 +1,33 @@
+
+.card{
+  width: 170px;
+  height: 200px;
+  position: relative;
+}
+
+.header {
+  padding: 0;
+  object-fit: cover;
+}
+
+.image {
+  width: 100%;
+  height: 120px;
+}
+
+.author {
+    font-weight: lighter;
+  }
+
+.btn {
+  position: absolute;
+  bottom: 0;
+  left: .7em;
+  color: var(--ion-color-primary);
+  cursor: pointer;
+  margin: 0.5em;
+
+  &:focus {
+    color: var(--ion-color-dark);
+  }
+}

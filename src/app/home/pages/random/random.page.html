@@ -4,8 +4,13 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-<div class="photos" *ngIf="photos$ | async as photos">
-  <ion-img [src]="photo.urls.small" *ngFor="let photo of photos" class="photos__item"></ion-img>
-</div>
+<ion-content class="content">
+  <div class="loading">
+    <ion-text *ngIf="!error$" color="danger">Error!</ion-text>
+    <ion-spinner *ngIf="isLoading$"></ion-spinner>
+  </div>
+  <ion-button (click)="getPhotos()">refresh</ion-button>
+  <div class="photos" *ngIf="photos$ | async as photos">
+    <app-image-card *ngFor="let photo of photos" [src]="photo.urls.small" [author]="photo.user.username" (clickAction)="getPhoto(photo)"></app-image-card>
+  </div>
 </ion-content>

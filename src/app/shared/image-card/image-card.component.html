@@ -1,0 +1,11 @@
+<ion-card class="card" (click)="openCardAction()">
+  <ion-card-header class="header">
+    <img class="image" [src]="src"/>
+  </ion-card-header>
+
+  <ion-card-content class="content">
+    <p class="author">author</p>
+    <ion-card-subtitle class="subTitle">{{author}}</ion-card-subtitle>
+  </ion-card-content>
+      <p class="btn" (click)="goToAction()">{{favourite ? 'remove' : 'add to favourite'}}</p>
+</ion-card>
