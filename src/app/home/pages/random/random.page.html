@@ -11,6 +11,6 @@
   </div>
   <ion-button (click)="getPhotos()">refresh</ion-button>
   <div class="photos" *ngIf="photos$ | async as photos">
-    <app-image-card *ngFor="let photo of photos" [src]="photo.urls.small" [author]="photo.user.username" (clickAction)="getPhoto(photo)"></app-image-card>
+    <app-image-card (openCard)="openModal(photo)" *ngFor="let photo of photos" [src]="photo.urls.small" [author]="photo.user.username" (clickAction)="getPhoto(photo)"></app-image-card>
   </div>
 </ion-content>

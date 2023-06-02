@@ -1,8 +1,10 @@
-<ion-modal id="example-modal" #modal [trigger]="trigger">
-  <ng-template>
-    <div class="wrapper">
+<div>
+    <div class="modal-wrapper">
+      <div class="close">
+      <ion-button fill="clear" (click)="cancel()">close</ion-button>
+      </div>
       <img class="image" [alt]="description" [src]="src"/>
       <p>{{description}}</p>
+      <ion-button fill="clear" (click)="confirm()">{{ favourite ? 'remove' : 'add to favourite' }}</ion-button>
     </div>
-  </ng-template>
-</ion-modal>
+</div>

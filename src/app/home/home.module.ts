@@ -13,8 +13,7 @@ import {PhotosEffects} from "./state/photos.effects";
 import {EffectsModule} from "@ngrx/effects";
 import {StoreModule} from "@ngrx/store";
 import {ImageCardModule} from "../shared/image-card/image-card.module";
-import {ImageModalComponent} from "../shared/image-modal/image-modal.component";
-
+import {ImageModalModule} from "../shared/image-modal/image-modal.module";
 
 @NgModule({
   imports: [
@@ -23,11 +22,12 @@ import {ImageModalComponent} from "../shared/image-modal/image-modal.component";
     IonicModule,
     ImageCardModule,
     HomePageRoutingModule,
+    ImageModalModule,
     StoreModule.forFeature('photosRandom', photosReducer),
     StoreModule.forFeature('photosSearch', photosSearchReducer),
     StoreModule.forFeature('photosFavourite', favouritePhotosReducer),
     EffectsModule.forFeature([PhotosEffects]),
   ],
-  declarations: [HomePage, RandomPage, CategoriesPage, FavoritesPage, ImageModalComponent]
+  declarations: [HomePage, RandomPage, CategoriesPage, FavoritesPage]
 })
 export class HomePageModule {}

@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {ModalController} from "@ionic/angular";
 
 @Component({
   selector: 'app-image-modal',
@@ -6,14 +7,22 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./image-modal.component.scss'],
 })
 export class ImageModalComponent implements OnInit {
-  @Input() trigger!: string;
-  @Input() description = '';
-  @Input() src = '';
+  favourite!: boolean;
+  description = '';
+  src = '';
 
-  constructor() {
+  constructor(private modalCtrl: ModalController) {
   }
 
   ngOnInit() {
+  }
+
+  async cancel() {
+    await this.modalCtrl.dismiss();
+  }
+
+  async confirm() {
+    await this.modalCtrl.dismiss('confirm');
   }
 
 }

@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {ImageModalComponent} from "./image-modal.component";
+import {IonicModule} from "@ionic/angular";
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [ImageModalComponent],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    IonicModule
+  ],
+  exports: [ImageModalComponent]
 })
 export class ImageModalModule { }

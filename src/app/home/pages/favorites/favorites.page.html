@@ -11,9 +11,7 @@
   </div>
 
   <div class="photos" *ngIf="photos$ | async as photos">
-  <app-image-card [id]="photo.id" (openCard)="openModal(photo)" *ngFor="let photo of photos" [src]="photo.url" [author]="photo.username" [favourite]="true" (clickAction)="removePhoto(photo)"></app-image-card>
+  <app-image-card (openCard)="openModal(photo)" *ngFor="let photo of photos" [src]="photo.url" [author]="photo.username" [favourite]="true" (clickAction)="removePhoto(photo)"></app-image-card>
   </div>
-
-    <app-image-modal *ngIf="selectedPhoto" [trigger]="selectedPhoto.id" [description]="selectedPhoto.description" [src]="selectedPhoto.url"></app-image-modal>
 
 </ion-content>

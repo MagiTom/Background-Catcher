@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PhotosService} from "../../../services/photos.service";
 import {Observable} from "rxjs";
-import {SearchPhotos} from "../../../models/back-end/photos.model";
 import {FavouritePhoto} from "../../state/actions/photos-page.actions";
 import {Store} from "@ngrx/store";
 import {State} from "../../../state/app.state";
 import {PhotosPageActions} from "../../state/actions";
-import {getErrorFavouritePhotos, getErrorSearchPhotos, getFavouritePhotos, getSearchPhotos} from "../../state";
+import {getErrorFavouritePhotos, getFavouritePhotos} from "../../state";
+import {ModalController} from "@ionic/angular";
+import {ImageModalService} from "../../../services/image-modal.service";
 
 @Component({
   selector: 'app-favorites',
@@ -17,8 +18,10 @@ export class FavoritesPage implements OnInit {
   isLoading$!: Observable<boolean>;
   error$!: Observable<string | null>;
   photos$!: Observable<FavouritePhoto[] | null>
-  selectedPhoto!: FavouritePhoto;
-  constructor(private photoService: PhotosService, private store: Store<State>) { }
+
+  constructor(private photoService: PhotosService, private store: Store<State>,
+              private modalCtrl: ModalController, private imageModalService: ImageModalService) {
+  }
 
   ngOnInit() {
     this.photos$ = this.store.select(getFavouritePhotos);
@@ -27,10 +30,14 @@ export class FavoritesPage implements OnInit {
   }
 
   removePhoto(photo: FavouritePhoto) {
-    this.store.dispatch(PhotosPageActions.deletePhoto({ id: photo.id }))
+    this.store.dispatch(PhotosPageActions.deletePhoto({id: photo.id}))
   }
 
-  openModal(photo: FavouritePhoto) {
-    this.selectedPhoto = photo
+  async openModal(photo: FavouritePhoto) {
+    this.imageModalService.openModal(photo.url, photo.description, true).then((modelData) =>{
+        if (modelData.data) {
+          this.removePhoto(photo);
+        }
+    });
   }
 }
