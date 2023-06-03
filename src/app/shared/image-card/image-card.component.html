@@ -7,5 +7,5 @@
     <p class="author">author</p>
     <ion-card-subtitle class="subTitle">{{author}}</ion-card-subtitle>
   </ion-card-content>
-      <p class="btn" (click)="goToAction()">{{favourite ? 'remove' : 'add to favourite'}}</p>
+      <p class="btn" (click)="goToAction($event)">{{favourite ? 'remove' : 'add to favourite'}}</p>
 </ion-card>

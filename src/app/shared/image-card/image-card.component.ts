@@ -15,7 +15,8 @@ export class ImageCardComponent  implements OnInit {
 
   ngOnInit() {}
 
-  goToAction(){
+  goToAction(e: Event){
+    e.stopPropagation();
     this.clickAction.emit();
   }
 

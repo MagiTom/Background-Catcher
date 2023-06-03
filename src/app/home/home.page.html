@@ -16,7 +16,7 @@
       <ion-title>{{(user$ | async)?.email}}</ion-title>
     </ion-toolbar>
     <ion-toolbar>
-      <ion-segment value="categories" (ionChange)="changePage($event)">
+      <ion-segment [(ngModel)]="selected" (ionChange)="changePage($event)">
         <ion-segment-button routerLink="/home/categories" value="categories">
           <ion-label>categories</ion-label>
         </ion-segment-button>

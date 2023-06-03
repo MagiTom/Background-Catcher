@@ -64,6 +64,11 @@ export class PhotosService {
   addFavouriteToDatabase(photo: FavouritePhoto) {
     return from(addDoc(collection(this.firestore, "favourite"), photo)).pipe(map(() => photo));
   }
+
+
+  downLoadPhoto(){}
+
 }
 
 // https://jsmobiledev.com/article/crud-ionic-firestore/
+// https://www.c-sharpcorner.com/article/how-to-download-a-file-using-file-transfer-plugin-in-ionic-3/

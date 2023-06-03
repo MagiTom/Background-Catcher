@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Observable, tap} from "rxjs";
 import {UserAuthResModel} from "../models/back-end/user-auth.model";
 import {select, Store} from "@ngrx/store";
@@ -14,9 +14,11 @@ import {LoginPageActions} from "../login/state/actions";
 })
 export class HomePage {
 user$!: Observable<UserAuthResModel | null>;
-  constructor(private router: Router,  private store: Store<AppState>) {}
+  selected = 'favorites';
+  constructor(private router: Router,  private store: Store<AppState>, private route: ActivatedRoute) {}
 
   ionViewWillEnter(){
+    this.selected = this.router.url.split('/')[2];
     this.user$ = this.store.pipe(select(selectCurrentUser), tap(res => console.log('userRes', res)));
   }
 

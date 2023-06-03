@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
-import {PhotosResult, SearchPhotos} from "../../../models/back-end/photos.model";
-import {getErrorSearchPhotos, getSearchPhotos} from "../../state";
+import {combineLatest, map, Observable} from "rxjs";
+import {PhotosModel, PhotosResult, SearchPhotos} from "../../../models/back-end/photos.model";
+import {getErrorSearchPhotos, getFavouritePhotos, getRandomPhotos, getSearchPhotos} from "../../state";
 import {PhotosPageActions} from "../../state/actions";
 import {Store} from "@ngrx/store";
 import {State} from "../../../state/app.state";
 import {FavouritePhoto, photosQuery} from "../../state/actions/photos-page.actions";
 import {categories, Category} from "../../util/categories";
+import {ImageModalService} from "../../../services/image-modal.service";
 
 @Component({
   selector: 'app-categories',
@@ -19,14 +20,20 @@ export class CategoriesPage implements OnInit {
   photos$!: Observable<SearchPhotos | null>
   query!: photosQuery;
   categories = categories;
-  constructor(private store: Store<State>) { }
+  favouritePhotos: FavouritePhoto[] = [];
+  constructor(private store: Store<State>, private imageModalService: ImageModalService) { }
 
   ngOnInit() {
     this.query = {
       term: 'office',
       page: 1
     }
-    this.photos$ = this.store.select(getSearchPhotos);
+    this.photos$ = combineLatest([this.store.select(getSearchPhotos), this.store.select(getFavouritePhotos)]).pipe(
+      map(([randomPhoto, favourite]) => {
+        this.favouritePhotos = favourite;
+        return randomPhoto;
+      })
+    );
     this.error$ = this.store.select(getErrorSearchPhotos);
     // this.getPhotos();
   }
@@ -38,7 +45,7 @@ export class CategoriesPage implements OnInit {
   getPhoto(photo: PhotosResult) {
     const favouritePhoto: FavouritePhoto = {
       id: photo.id,
-      url: photo.urls.small,
+      url: photo.urls.regular,
       username: photo.user.username,
       description: photo.description
     }
@@ -51,5 +58,16 @@ export class CategoriesPage implements OnInit {
       term: category.name
     }
     this.getPhotos();
+  }
+
+  async openModal(photo: any) {
+    this.imageModalService.openModal(photo.urls.regular, photo.description, false).then((modelData) => {
+      if (modelData.data) {
+        this.getPhoto(photo);
+      }
+    });
+  }
+  checkIfFavourite(photo: PhotosResult) {
+    return this.favouritePhotos.some(fav => fav.url === photo.urls.regular);
   }
 }

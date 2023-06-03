@@ -1,8 +1,3 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>random</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content class="content">
   <div class="loading">
@@ -11,6 +6,6 @@
   </div>
   <ion-button (click)="getPhotos()">refresh</ion-button>
   <div class="photos" *ngIf="photos$ | async as photos">
-    <app-image-card (openCard)="openModal(photo)" *ngFor="let photo of photos" [src]="photo.urls.small" [author]="photo.user.username" (clickAction)="getPhoto(photo)"></app-image-card>
+    <app-image-card [favourite]="checkIfFavourite(photo)" (openCard)="openModal(photo)" *ngFor="let photo of photos" [src]="photo.urls.small" [author]="photo.user.username" (clickAction)="getPhoto(photo)"></app-image-card>
   </div>
 </ion-content>

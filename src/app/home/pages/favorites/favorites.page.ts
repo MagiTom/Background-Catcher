@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PhotosService} from "../../../services/photos.service";
-import {Observable} from "rxjs";
+import {map, Observable, tap} from "rxjs";
 import {FavouritePhoto} from "../../state/actions/photos-page.actions";
 import {Store} from "@ngrx/store";
 import {State} from "../../../state/app.state";
@@ -24,7 +24,7 @@ export class FavoritesPage implements OnInit {
   }
 
   ngOnInit() {
-    this.photos$ = this.store.select(getFavouritePhotos);
+    this.photos$ = this.store.select(getFavouritePhotos).pipe(map(data => !data || !data?.length? null : data));
     this.error$ = this.store.select(getErrorFavouritePhotos);
     this.store.dispatch(PhotosPageActions.loadFavouritePhotos());
   }

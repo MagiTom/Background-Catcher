@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {State} from "../../../state/app.state";
-import {Observable} from "rxjs";
+import {combineLatest, map, Observable} from "rxjs";
 import {PhotosModel, PhotosResult} from "../../../models/back-end/photos.model";
 import {getErrorRandomPhotos, getFavouritePhotos, getRandomPhotos} from "../../state";
 import {PhotosPageActions} from "../../state/actions";
@@ -16,16 +16,21 @@ import {ImageModalService} from "../../../services/image-modal.service";
 export class RandomPage implements OnInit {
   isLoading$!: Observable<boolean>;
   error$!: Observable<string | null>;
-  photos$!: Observable<PhotosModel[]>
+  photos$!: Observable<PhotosModel[]>;
+  favouritePhotos: FavouritePhoto[] = [];
 
   constructor(private store: Store<State>, private imageModalService: ImageModalService) {
   }
 
   ngOnInit(): void {
-    this.photos$ = this.store.select(getRandomPhotos);
+    this.photos$ = combineLatest([this.store.select(getRandomPhotos), this.store.select(getFavouritePhotos)]).pipe(
+      map(([randomPhoto, favourite]) => {
+        this.favouritePhotos = favourite;
+        return randomPhoto;
+      })
+    );
     this.error$ = this.store.select(getErrorRandomPhotos);
     this.getPhotos();
-    this.store.select(getFavouritePhotos).subscribe(data => console.log('data', data));
   }
 
   getPhotos() {
@@ -35,7 +40,7 @@ export class RandomPage implements OnInit {
   getPhoto(photo: any) {
     const favouritePhoto: FavouritePhoto = {
       id: photo.id,
-      url: photo.urls.small,
+      url: photo.urls.regular,
       username: photo.user.username,
       description: photo.description
     }
@@ -44,10 +49,14 @@ export class RandomPage implements OnInit {
   }
 
   async openModal(photo: any) {
-    this.imageModalService.openModal(photo.urls.small, photo.description, false).then((modelData) => {
+    this.imageModalService.openModal(photo.urls.regular, photo.description, false).then((modelData) => {
       if (modelData.data) {
         this.getPhoto(photo);
       }
     });
+  }
+
+  checkIfFavourite(photo: PhotosModel) {
+    return this.favouritePhotos.some(fav => fav.url === photo.urls.regular);
   }
 }
