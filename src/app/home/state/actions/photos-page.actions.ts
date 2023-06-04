@@ -1,5 +1,4 @@
 import {createAction, props} from "@ngrx/store";
-import {PhotosModel} from "../../../models/back-end/photos.model";
 
 export interface photosQuery {
   term: string;

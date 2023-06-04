@@ -1,13 +1,14 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {combineLatest, map, Observable} from "rxjs";
-import {PhotosModel, PhotosResult, SearchPhotos} from "../../../models/back-end/photos.model";
-import {getErrorSearchPhotos, getFavouritePhotos, getRandomPhotos, getSearchPhotos} from "../../state";
+import {PhotosResult, SearchPhotos} from "../../../models/back-end/photos.model";
+import {getErrorSearchPhotos, getFavouritePhotos, getSearchPhotos} from "../../state";
 import {PhotosPageActions} from "../../state/actions";
 import {Store} from "@ngrx/store";
 import {State} from "../../../state/app.state";
 import {FavouritePhoto, photosQuery} from "../../state/actions/photos-page.actions";
 import {categories, Category} from "../../util/categories";
 import {ImageModalService} from "../../../services/image-modal.service";
+import {IonContent} from "@ionic/angular";
 
 @Component({
   selector: 'app-categories',
@@ -15,17 +16,19 @@ import {ImageModalService} from "../../../services/image-modal.service";
   styleUrls: ['./categories.page.scss'],
 })
 export class CategoriesPage implements OnInit {
+  @ViewChild('content', { static: false }) content!: IonContent;
   isLoading$!: Observable<boolean>;
   error$!: Observable<string | null>;
   photos$!: Observable<SearchPhotos | null>
   query!: photosQuery;
   categories = categories;
   favouritePhotos: FavouritePhoto[] = [];
+  searchValue = '';
   constructor(private store: Store<State>, private imageModalService: ImageModalService) { }
 
   ngOnInit() {
     this.query = {
-      term: 'office',
+      term: this.categories[0].name,
       page: 1
     }
     this.photos$ = combineLatest([this.store.select(getSearchPhotos), this.store.select(getFavouritePhotos)]).pipe(
@@ -35,7 +38,7 @@ export class CategoriesPage implements OnInit {
       })
     );
     this.error$ = this.store.select(getErrorSearchPhotos);
-    // this.getPhotos();
+    this.getPhotos();
   }
 
   getPhotos(){
@@ -52,10 +55,10 @@ export class CategoriesPage implements OnInit {
     this.store.dispatch(PhotosPageActions.savePhoto({ photo: favouritePhoto }))
   }
 
-  getCategory(category: Category) {
+  getCategory(name: string) {
     this.query = {
       ...this.query,
-      term: category.name
+      term: name
     }
     this.getPhotos();
   }

@@ -1,15 +1,21 @@
-
-<ion-content class="content">
+<ion-content #content class="content">
   <div class="loading">
     <ion-text *ngIf="!error$" color="danger">Error!</ion-text>
     <ion-spinner *ngIf="isLoading$"></ion-spinner>
   </div>
+  <ion-item class="search">
+    <ion-input [(ngModel)]="searchValue" label="search" placeholder="enter category"></ion-input>
+    <ion-button (click)="getCategory(searchValue)"><ion-icon name="search-outline"></ion-icon></ion-button>
+  </ion-item>
   <div class="categories">
-    <div (click)="getCategory(category)" *ngFor="let category of categories" class="categories__item">{{category.name}}
+    <div [ngClass]="category.name === this.query.term ? 'selected' : ''" (click)="getCategory(category.name)" *ngFor="let category of categories" class="categories__item">{{category.name}}
       <ion-ripple-effect></ion-ripple-effect>
     </div>
   </div>
   <div class="photos" *ngIf="photos$ | async as photos">
-    <app-image-card [favourite]="checkIfFavourite(photo)" (openCard)="openModal(photo)"  *ngFor="let photo of photos.results" [src]="photo.urls.small" [author]="photo.user.username" (clickAction)="getPhoto(photo)"></app-image-card>
+    <app-image-card [favourite]="checkIfFavourite(photo)" (openCard)="openModal(photo)"
+                    *ngFor="let photo of photos.results" [src]="photo.urls.small" [author]="photo.user.username"
+                    (clickAction)="getPhoto(photo)"></app-image-card>
   </div>
 </ion-content>
+<app-scroll-top-button [content]="content"></app-scroll-top-button>

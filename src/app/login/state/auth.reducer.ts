@@ -66,4 +66,7 @@ export const selectCurrentUser = createSelector(
   selectAuthFeatureState,
   state => state.userData
 );
-
+export const getErrorLoginState = createSelector(
+  selectAuthFeatureState,
+  state => state.error
+);

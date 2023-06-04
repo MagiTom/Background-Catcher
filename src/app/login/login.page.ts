@@ -6,6 +6,9 @@ import {AuthService} from "../services/auth.service";
 import {Store} from "@ngrx/store";
 import {State} from "../state/app.state";
 import {LoginApiActions, LoginPageActions} from './state/actions';
+import {Observable} from "rxjs";
+import {getErrorFavouritePhotos} from "../home/state";
+import {getErrorLoginState} from "./state/auth.reducer";
 
 @Component({
   selector: 'app-login',
@@ -14,6 +17,7 @@ import {LoginApiActions, LoginPageActions} from './state/actions';
 })
 export class LoginPage implements OnInit {
   credentials!: FormGroup;
+  error$!: Observable<string | null>;
 
   constructor(private fb: FormBuilder,
               private loadingController: LoadingController,
@@ -35,27 +39,19 @@ export class LoginPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+    this.error$ = this.store.select(getErrorLoginState);
   }
 
-  async login() {
-    // const loading = await this.loadingController.create();
-    // await loading.present();
-    //
-    // const user = await this.authService.login(this.credentials.value);
-    // await loading.dismiss();
-    //
-    // if (user) {
-    //   this.router.navigateByUrl('/home', {replaceUrl: true});
-    // } else {
-    //   this.showAlert('Login failed', 'Please try again!');
-    // }
+  async login(e: Event) {
+    e.stopPropagation();
     this.store.dispatch(LoginPageActions.loginUser({
       user: this.credentials.value
     }));
 
   }
 
-  goToRegistration() {
+  goToRegistration(e: Event) {
+    e.stopPropagation();
     this.router.navigate(['registration'])
   }
 

@@ -1,13 +1,13 @@
 <ion-content>
   <ion-card>
-    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    <img alt="Silhouette of mountains" src="https://images.unsplash.com/photo-1538438253612-287c9fc9217e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" />
     <ion-card-header>
       <ion-card-title>REGISTRATION</ion-card-title>
       <!--      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>-->
     </ion-card-header>
 
     <ion-card-content>
-      <form (ngSubmit)="register()" [formGroup]="credentials">
+      <form (ngSubmit)="register($event)" [formGroup]="credentials">
         <ion-item fill="solid" class="ion-margin-bottom">
           <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
           <ion-note slot="error" *ngIf="(email?.dirty || email?.touched) && email?.errors"
@@ -21,9 +21,12 @@
           >
         </ion-item>
 
-        <ion-button color="primary" fill="clear" (click)="back()">back</ion-button>
-        <ion-button type="submit" color="primary" type="submit">register</ion-button>
+        <ion-button [disabled]="!credentials.valid" type="submit" color="primary" type="submit">register</ion-button>
       </form>
+        <ion-button color="primary" fill="clear" (click)="back($event)">back</ion-button>
     </ion-card-content>
   </ion-card>
+  <div class="loading">
+    <ion-text *ngIf="!error$" color="danger">Error!</ion-text>
+  </div>
 </ion-content>

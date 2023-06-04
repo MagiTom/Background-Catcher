@@ -1,5 +1,5 @@
 
-<ion-content class="content">
+<ion-content #content class="content" [scrollEvents]="true">
   <div class="loading">
     <ion-text *ngIf="!error$" color="danger">Error!</ion-text>
     <ion-spinner *ngIf="isLoading$"></ion-spinner>
@@ -12,3 +12,4 @@
     <p class="noData">no data</p>
   </ng-template>
 </ion-content>
+  <app-scroll-top-button [content]="content"></app-scroll-top-button>

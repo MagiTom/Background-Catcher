@@ -2,10 +2,13 @@
   <ion-card-header class="header">
     <img class="image" [src]="src"/>
   </ion-card-header>
-
   <ion-card-content class="content">
     <p class="author">author</p>
     <ion-card-subtitle class="subTitle">{{author}}</ion-card-subtitle>
+    <div class="btns">
+      <ion-icon class="btn" (click)="goToAction($event)" size="large" [name]="favourite ? 'trash-outline' : 'add-circle-outline'"></ion-icon>
+      <ion-icon class="btn" (click)="downLoadImage($event)" size="large" name="download-outline"></ion-icon>
+    </div>
   </ion-card-content>
-      <p class="btn" (click)="goToAction($event)">{{favourite ? 'remove' : 'add to favourite'}}</p>
+
 </ion-card>

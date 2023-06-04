@@ -9,6 +9,7 @@ import {State} from "../state/app.state";
 import {AngularFireDatabase, AngularFireList, AngularFireObject} from "@angular/fire/compat/database";
 import {addDoc, collection, collectionData, deleteDoc, doc, Firestore} from "@angular/fire/firestore";
 import firebase from "firebase/compat";
+import { Filesystem, Directory } from '@capacitor/filesystem';
 import firestore = firebase.firestore;
 
 @Injectable({
@@ -66,8 +67,41 @@ export class PhotosService {
   }
 
 
-  downLoadPhoto(){}
+  async downLoadPhoto(webPath: string) {
+    const fileName = new Date().getTime() + '.jpeg';
+    const base64Data = await this.readAsBase64(webPath);
+    const savedFile = await Filesystem.writeFile({
+      path: fileName,
+      data: base64Data,
+      directory: Directory.Data,
+    });
 
+    console.log(savedFile);
+
+    // Use webPath to display the new image instead of base64 since it's
+    // already loaded into memory
+    return {
+      filepath: fileName,
+      webviewPath: webPath,
+    };
+  }
+
+  private async readAsBase64(webPath: string) {
+    // Fetch the photo, read as a blob, then convert to base64 format
+    const response = await fetch(webPath);
+    const blob = await response.blob();
+
+    return await this.convertBlobToBase64(blob) as string;
+  }
+
+  private convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.readAsDataURL(blob);
+  });
 }
 
 // https://jsmobiledev.com/article/crud-ionic-firestore/

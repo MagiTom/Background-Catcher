@@ -1,11 +1,15 @@
-
-<ion-content class="content">
+<ion-content #content class="content">
   <div class="loading">
     <ion-text *ngIf="!error$" color="danger">Error!</ion-text>
     <ion-spinner *ngIf="isLoading$"></ion-spinner>
   </div>
-  <ion-button (click)="getPhotos()">refresh</ion-button>
+  <div class="refresh">
+  <ion-button class="refresh" (click)="getPhotos()">refresh</ion-button>
+  </div>
   <div class="photos" *ngIf="photos$ | async as photos">
-    <app-image-card [favourite]="checkIfFavourite(photo)" (openCard)="openModal(photo)" *ngFor="let photo of photos" [src]="photo.urls.small" [author]="photo.user.username" (clickAction)="getPhoto(photo)"></app-image-card>
+    <app-image-card [favourite]="checkIfFavourite(photo)" (openCard)="openModal(photo)" *ngFor="let photo of photos"
+                    [src]="photo.urls.small" [author]="photo.user.username"
+                    (clickAction)="getPhoto(photo)"></app-image-card>
   </div>
 </ion-content>
+<app-scroll-top-button [content]="content"></app-scroll-top-button>

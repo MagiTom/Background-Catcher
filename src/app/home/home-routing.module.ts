@@ -20,7 +20,7 @@ const routes: Routes = [
       },
       {
         path: 'favorites',
-        component: FavoritesPage
+        component: FavoritesPage,
       },
     ]
   },

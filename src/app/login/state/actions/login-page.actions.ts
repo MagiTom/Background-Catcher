@@ -15,4 +15,3 @@ export const loginUser = createAction(
 export const logOutUser = createAction(
   '[Login Page] LogOut User'
 );
-

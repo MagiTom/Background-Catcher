@@ -1,31 +1,34 @@
-
 <ion-content>
   <ion-card>
-    <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+    <img alt="Silhouette of mountains" src="https://images.unsplash.com/photo-1538438253612-287c9fc9217e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"/>
     <ion-card-header>
       <ion-card-title>LOGIN</ion-card-title>
-<!--      <ion-card-subtitle>Card Subtitle</ion-card-subtitle>-->
     </ion-card-header>
 
     <ion-card-content>
 
-      <form (ngSubmit)="login()" [formGroup]="credentials">
+      <form (ngSubmit)="login($event)" [formGroup]="credentials">
         <ion-item fill="solid" class="ion-margin-bottom">
           <ion-input type="email" placeholder="Email" formControlName="email"></ion-input>
           <ion-note slot="error" *ngIf="(email?.dirty || email?.touched) && email?.errors"
-          >Email is invalid</ion-note
+          >Email is invalid
+          </ion-note
           >
         </ion-item>
         <ion-item fill="solid" class="ion-margin-bottom">
           <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
           <ion-note slot="error" *ngIf="(password?.dirty || password?.touched) && password?.errors"
-          >Password needs to be 6 characters</ion-note
+          >Password needs to be 6 characters
+          </ion-note
           >
         </ion-item>
         <ion-button type="submit" expand="block" [disabled]="!credentials.valid">Log in</ion-button>
-        <ion-button color="primary" fill="clear" (click)="goToRegistration()">registration</ion-button>
       </form>
+      <ion-button color="primary" fill="clear" (click)="goToRegistration($event)">registration</ion-button>
 
     </ion-card-content>
   </ion-card>
+  <div class="loading">
+    <ion-text *ngIf="!error$" color="danger">Error!</ion-text>
+  </div>
 </ion-content>

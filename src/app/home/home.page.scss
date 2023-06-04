@@ -1,3 +1,11 @@
+.selected {
+  --background: var(--ion-color-secondary);
+
+  ion-button {
+    --color: white;
+  }
+}
+
 #container {
   text-align: center;
 

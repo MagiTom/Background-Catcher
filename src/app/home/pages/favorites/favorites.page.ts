@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PhotosService} from "../../../services/photos.service";
 import {map, Observable, tap} from "rxjs";
 import {FavouritePhoto} from "../../state/actions/photos-page.actions";
@@ -6,8 +6,9 @@ import {Store} from "@ngrx/store";
 import {State} from "../../../state/app.state";
 import {PhotosPageActions} from "../../state/actions";
 import {getErrorFavouritePhotos, getFavouritePhotos} from "../../state";
-import {ModalController} from "@ionic/angular";
+import {IonContent, ModalController} from "@ionic/angular";
 import {ImageModalService} from "../../../services/image-modal.service";
+import {download} from "ionicons/icons";
 
 @Component({
   selector: 'app-favorites',
@@ -15,6 +16,7 @@ import {ImageModalService} from "../../../services/image-modal.service";
   styleUrls: ['./favorites.page.scss'],
 })
 export class FavoritesPage implements OnInit {
+  @ViewChild('content', { static: false }) content!: IonContent;
   isLoading$!: Observable<boolean>;
   error$!: Observable<string | null>;
   photos$!: Observable<FavouritePhoto[] | null>
@@ -40,4 +42,7 @@ export class FavoritesPage implements OnInit {
         }
     });
   }
+
+  protected readonly download = download;
+
 }

@@ -1,12 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {select, Store} from "@ngrx/store";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Store} from "@ngrx/store";
 import {State} from "../../../state/app.state";
 import {combineLatest, map, Observable} from "rxjs";
-import {PhotosModel, PhotosResult} from "../../../models/back-end/photos.model";
+import {PhotosModel} from "../../../models/back-end/photos.model";
 import {getErrorRandomPhotos, getFavouritePhotos, getRandomPhotos} from "../../state";
 import {PhotosPageActions} from "../../state/actions";
 import {FavouritePhoto} from "../../state/actions/photos-page.actions";
 import {ImageModalService} from "../../../services/image-modal.service";
+import {IonContent} from "@ionic/angular";
 
 @Component({
   selector: 'app-random',
@@ -14,6 +15,7 @@ import {ImageModalService} from "../../../services/image-modal.service";
   styleUrls: ['./random.page.scss'],
 })
 export class RandomPage implements OnInit {
+  @ViewChild('content', { static: false }) content!: IonContent;
   isLoading$!: Observable<boolean>;
   error$!: Observable<string | null>;
   photos$!: Observable<PhotosModel[]>;
